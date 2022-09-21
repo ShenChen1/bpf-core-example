@@ -1,5 +1,5 @@
 CLANG ?= clang
-LINUX ?= ../../linux
+LINUX ?= ../linux
 CROSS_COMPILE ?= aarch64-buildroot-linux-gnu-
 SYSROOT=$(shell $(CROSS_COMPILE)gcc -print-sysroot)
 TOOLCHAIN=$(shell dirname $(shell which $(CROSS_COMPILE)gcc))/..
