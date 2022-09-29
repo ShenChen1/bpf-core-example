@@ -22,13 +22,21 @@ BPF programs attached
 ## HOWTO
 
 ```
-peteshen@641392be30fd$ make
-mkdir -p build
 ../../linux/tools/bpf/bpftool/bpftool btf dump file ../../linux/vmlinux format c > vmlinux.h
 clang -g -O2 -Wall --target=bpf -I build -c tracepoint.bpf.c -o build/tracepoint.bpf.o --sysroot=/var/fpwork/shenchen/peteshen/buildroot/output/host/aarch64-buildroot-linux-gnu/sysroot
 ../../linux/tools/bpf/bpftool/bpftool gen skeleton build/tracepoint.bpf.o > build/tracepoint.skel.h
 clang -g -O2 -Wall -I build -c tracepoint.c -o build/tracepoint.o --target=aarch64-buildroot-linux-gnu --sysroot=/var/fpwork/shenchen/peteshen/buildroot/output/host/aarch64-buildroot-linux-gnu/sysroot --gcc-toolchain=/var/fpwork/shenchen/peteshen/buildroot/output/host/bin/..
 clang -fuse-ld=lld -g -O2 -Wall build/tracepoint.o -Lbuild -lbpf -lelf -lz -o build/tracepoint --target=aarch64-buildroot-linux-gnu --sysroot=/var/fpwork/shenchen/peteshen/buildroot/output/host/aarch64-buildroot-linux-gnu/sysroot --gcc-toolchain=/var/fpwork/shenchen/peteshen/buildroot/output/host/bin/..
+```
+
+### clang-15
+
+Just for https://github.com/libbpf/libbpf-bootstrap/issues/95
+
+```
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 15
 ```
 
 ### buildroot
