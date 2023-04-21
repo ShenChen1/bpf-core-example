@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 OUTPUT := .output
 
-CLANG ?= clang-15
+CLANG ?= clang
 CROSS_COMPILE ?= aarch64-buildroot-linux-gnu-
 ARCH := arm64
 
-LINUX ?= ../../linux
-BPFTOOL ?= $(LINUX)/tools/bpf/bpftool/bpftool
+VMLINUX ?= ../../linux/vmlinux
+BPFTOOL ?= ../bpftool/src/bpftool
 CFLAGS := -g -Wall --sysroot=$(shell $(CROSS_COMPILE)gcc -print-sysroot)
 INCLUDES := -I$(OUTPUT)
 
@@ -46,7 +46,7 @@ $(OUTPUT):
 	$(Q)mkdir -p $@
 
 # Generate vmlinux.h
-$(OUTPUT)/vmlinux.h: $(LINUX)/vmlinux
+$(OUTPUT)/vmlinux.h: $(VMLINUX)
 	$(call msg,BPFTOOL,$@)
 	$(Q)$(BPFTOOL) btf dump file $^ format c > $@
 
