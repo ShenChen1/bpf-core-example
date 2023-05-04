@@ -119,7 +119,7 @@ make CROSS_COMPILE=aarch64-buildroot-linux-gnu- ARCH=arm64
 Some kernel options are necessary like `CONFIG_BPF`, `CONFIG_BPF_EVENTS`, `CONFIG_BPF_SYSCALL` ...
 * [kernel config](./linux/.config)
 
-### QEMU
+### qemu
 
 * [establish aarch64 machine](https://github.com/google/syzkaller/blob/master/docs/linux/setup_linux-host_qemu-vm_arm64-kernel.md)
 
@@ -130,6 +130,14 @@ qemu-system-aarch64 -machine virt -cpu cortex-a57 -nographic -smp 1 -m 2048 -ker
 You can use `SSH` to login
 ```
 ssh -p 10023 root@localhost
+```
+
+### debug with vmlinux
+
+```
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -nographic -smp 1 -m 2048 -kernel ./linux/arch/arm64/boot/Image -hda ./buildroot/output/images/rootfs.ext4 -append "root=/dev/vda" -net user,hostfwd=tcp::10023-:22 -net nic -gdb tcp::25000 -S
+
+aarch64-buildroot-linux-gnu-gdb -x .gdbinit
 ```
 
 ## References
